@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
-const UsersControllers = require("../controlers/usersControllers");
+const usersControllers = require("../controlers/usersControllers");
 
-router.delete("/:id", UsersControllers.deleteUser);
+router.delete("/:id",usersControllers.validateId, usersControllers.deleteUser);
 
 module.exports = router;

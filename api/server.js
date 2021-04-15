@@ -6,10 +6,10 @@ const allUsersRouter = require("./routers/allUsersRouter");
 const deleteUserRouter = require("./routers/deleteUserRouter");
 
 require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+
 
 class UsersServer {
-  construktor() {
+  constructor() {
     this.server = null;
   }
   start() {
@@ -49,8 +49,9 @@ class UsersServer {
   }
 
   startListening() {
+    const PORT = process.env.PORT;
     this.server.listen(PORT, () => {
-      console.log(`Server is running at port - ${PORT}`);
+      console.log(`Server is running on port - ${PORT}`);
     });
   }
 }

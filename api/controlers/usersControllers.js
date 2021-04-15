@@ -1,13 +1,28 @@
 const Joi = require("joi");
-const db = require("../../db.json");
-const users = db;
+const guestModel = require("../models/model");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 
 class UsersControllers {
-  static getAllUsers(req, res, next) {
-    return res.json(users);
+  async getAllUsers(req, res, next) {
+    try {
+      const users = await guestModel.find();
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  static addUser(req, res, next) {
+  async addUser(req, res, next) {
+    try {
+      const newUser = await guestModel.create(req.body);
+      res.status(201).send(newUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+  validateUser(req, res, next) {
     const rulesValidate = Joi.object({
       name: Joi.string().required(),
       message: Joi.string().required(),
@@ -15,21 +30,27 @@ class UsersControllers {
     const validation = rulesValidate.validate(req.body);
     if (validation.error) {
       res.status(400).send(validation.error);
-    } else {
-      const newUser = { id: users.length + 1, ...req.body };
-      users.push(newUser);
-      res.status(200).send(newUser);
+    }
+    next();
+  }
+  async deleteUser(req, res, next) {
+    const { id } = req.params;
+    try {
+      const targetUser = await guestModel.findByIdAndDelete(id);
+      if (!targetUser) {
+        res.status(404).send("User not found");
+      }
+      res.status(204).send();
+    } catch (error) {
+      next(error);
     }
   }
-  static deleteUser(req, res, next) {
-    const id = parseInt(req.params.id);
-    const targetUser = users.find((elem) => elem.id === id);
-    if (!targetUser) {
-      res.status(404).send("User not found");
+  async validateId(req, res, next) {
+    const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+      return res.status("400").send({ message: "Don't valid id!" });
     }
-    const userIndex = users.findIndex((elem) => elem.id === id);
-    users.splice(userIndex, 1);
-    return res.json(users);
+    next();
   }
 }
-module.exports = UsersControllers;
+module.exports = new UsersControllers();
