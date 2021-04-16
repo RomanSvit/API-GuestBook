@@ -24,7 +24,7 @@ class UsersServer {
   }
   initMiddlewares() {
     this.server.use(express.json());
-    this.server.use(cors({ origin: "http://localhost:3000" }));
+    this.server.use(cors({ origin: process.env.BASE_URL }));
   }
   initRouters() {
     this.server.use("/api/users", allUsersRouter);
