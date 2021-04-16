@@ -24,12 +24,12 @@ class UsersServer {
   }
   initMiddlewares() {
     this.server.use(express.json());
-    this.server.use(cors({ origin: "http://localhost:3000/" }));
+    this.server.use(cors({ origin: "http://localhost:3000" }));
   }
   initRouters() {
-    this.server.use("/users", allUsersRouter);
-    this.server.use("/addUser", addUserRouter);
-    this.server.use("/users", deleteUserRouter);
+    this.server.use("/api/users", allUsersRouter);
+    this.server.use("/api/addUser", addUserRouter);
+    this.server.use("/api/users", deleteUserRouter);
   }
 
   async initDataBase() {
