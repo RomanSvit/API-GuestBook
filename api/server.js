@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const addUserRouter = require("./routers/addUserRouter");
 const allUsersRouter = require("./routers/allUsersRouter");
 const deleteUserRouter = require("./routers/deleteUserRouter");
 
 require("dotenv").config();
-
 
 class UsersServer {
   constructor() {
@@ -24,6 +24,7 @@ class UsersServer {
   }
   initMiddlewares() {
     this.server.use(express.json());
+    this.server.use(cors({ origin: "http://localhost:3000/" }));
   }
   initRouters() {
     this.server.use("/users", allUsersRouter);
