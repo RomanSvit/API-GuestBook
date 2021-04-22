@@ -27,9 +27,9 @@ class UsersServer {
     this.server.use(cors());
   }
   initRouters() {
-    this.server.use("/api/users", allUsersRouter);
-    this.server.use("/api/addUser", addUserRouter);
-    this.server.use("/api/users", deleteUserRouter);
+    this.server.use("/api/comments", allUsersRouter);
+    this.server.use("/api/addСomment", addUserRouter);
+    this.server.use("/api/comments", deleteUserRouter);
   }
 
   async initDataBase() {
