@@ -28,7 +28,7 @@ class UsersServer {
   }
   initRouters() {
     this.server.use("/api/comments", allUsersRouter);
-    this.server.use("/api/addСomment", addUserRouter);
+    this.server.use("/api/addComment", addUserRouter);
     this.server.use("/api/comments", deleteUserRouter);
   }
 
